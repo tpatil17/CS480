@@ -45,7 +45,7 @@ void FailSafe(); // In case of errors, grace fully fail. In case of memory alloc
 
 PageTable startPageTable(int lvls); // For the Page Table, arguments are the number of levels
 
-PageLevel startPageLevel(int Lvl, PageTable* root, unsigned int arr_size); // access to root, page number to mark in nextlvlptr
+PageLevel* startPageLevel(int Lvl, PageTable* root, unsigned int arr_size); // access to root, page number to mark in nextlvlptr
 
 // Calculate page for a given level
 
