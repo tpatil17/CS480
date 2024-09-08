@@ -73,9 +73,9 @@ int main(int argc, char* argv[]){
 
     //Initialize Page level 0
 
-    PageLevel lvl0 = startPageLevel(0, &Root, ptrArraySizes[0]); // start with level zero
+    PageLevel* lvl0 = startPageLevel(0, &Root, ptrArraySizes[0]); // start with level zero
 
-    Root.zeroPage = &lvl0; // Zero page is a pointer inside Page table that points at level 0
+    Root.zeroPage = lvl0; // Zero page is a pointer inside Page table that points at level 0
     // All pointers at level 00 are set to null
     
     // The Program initializes 
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]){
         // Line below calculates all the page indices for each level and stores it in an array, where array index corresponds to level
         unsigned int* PageIndiceArr = pageIndice(Root.bitMasks, Root.shift_array, vAddr, Root.levelCount);
         //Count the number of time an address was visited
-        unsigned int accessCount = recordPageAccess(vAddr, &lvl0);
+        unsigned int accessCount = recordPageAccess(vAddr, lvl0);
         //log the access info
         log_pgindices_numofaccesses(vAddr, lvls, PageIndiceArr, accessCount);
 

@@ -52,32 +52,32 @@ PageTable startPageTable(int lvls){
     if(root.zeroPage == NULL){
         FailSafe();
     }
-    root.zeroPage = NULL; // initially points to nothing
+    //root.zeroPage = NULL; // initially points to nothing
     return root; // Page Table is the root
 }
 
 // Create a new page level
-PageLevel startPageLevel(int Lvl, PageTable* root, unsigned int arr_size){
+PageLevel* startPageLevel(int Lvl, PageTable* root, unsigned int arr_size){
 
-    PageLevel level; // page level object
+    PageLevel* level = (PageLevel*)malloc(sizeof(PageLevel)); // page level object
 
-    level.lvl = Lvl;
+    level->lvl = Lvl;
 
     //allocate memory for root pointet and point it to the root table
-    level.root = root;
+    level->root = root;
 
     //********************************************
 
-    level.numAccess = 0; // default access to zero
+    level->numAccess = 0; // default access to zero
 
     //********************************************
 
-    level.NextLevelPtr = (PageLevel**)malloc(sizeof(PageLevel*)*arr_size);
-    if (level.NextLevelPtr == NULL){
+    level->NextLevelPtr = (PageLevel**)malloc(sizeof(PageLevel*)*arr_size);
+    if (level->NextLevelPtr == NULL){
         FailSafe();
     }
     for(int i = 0; i < arr_size; i++){
-        level.NextLevelPtr[i] = NULL;
+        level->NextLevelPtr[i] = NULL;
     }
 
     return level; // return the PageLevel object with all set to NULL, this only allocates memory
@@ -128,7 +128,7 @@ unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl){
 
 
         
-        if (pgLvl == NULL || pgLvl->NextLevelPtr == NULL) {
+        if (pgLvl->NextLevelPtr == NULL) {
         fprintf(stderr, "Error: pgLvl or NextLevelPtr is NULL\n");
         return 1;
         }
@@ -143,8 +143,8 @@ unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl){
             // create a new page
             unsigned int ptrArraySize = pgLvl->root->entryCount[pgLvl->lvl+1];
 
-            PageLevel* newPage = (PageLevel*)malloc(sizeof(PageLevel));
-            *newPage = startPageLevel(curLvl+1, rootPtr, ptrArraySize);
+            PageLevel* newPage;
+            newPage = startPageLevel(curLvl+1, rootPtr, ptrArraySize);
 
 
             nxtLevel = newPage;
