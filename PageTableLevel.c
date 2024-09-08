@@ -142,8 +142,9 @@ unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl){
         
             // create a new page
             unsigned int ptrArraySize;
-            if(pgLvl->lvl < rootPtr->levelCount){
-                ptrArraySize = pgLvl->root->entryCount[pgLvl->lvl+1];
+            if(curLvl < rootPtr->levelCount){
+                ptrArraySize = pgLvl->root->entryCount[curLvl+1];
+                printf("Current level: %d\n", curLvl);
             }
             else{
                 ptrArraySize = 0;
