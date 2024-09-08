@@ -77,7 +77,7 @@ int* processString(char* arr, int lvls){
     }
     int i = 0;
     int j = 0;
-    while(arr[i]){
+    while(arr[i] && j < lvls){
         retArr[j] = atoi(&arr[i]);
         i=i+2;
         j++;
