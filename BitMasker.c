@@ -75,17 +75,13 @@ int* processString(char* arr, int lvls){
         perror("Memory allocation failed");
         exit(1);
     }
-    char* strCopy = strdup(arr); // modifiable copy of the string
-    char* token = strtok(strCopy, " ");
+    char* token = strtok(arr, " ");
     int index = 0;
 
-    while (token != NULL) {
+    while (token != NULL && index < lvls) {
         retArr[index++] = atoi(token);
         token = strtok(NULL, " ");
     }
-
-    free(strCopy); // Free the copy of string
-   
     return retArr;
    
 }

@@ -41,6 +41,7 @@ int main(int argc, char* argv[]){
 
     int* treeScheme = processString(argv[2], lvls); // array of bit counts per level
 
+
     // Base on the given scheme calculate masks and shift sizes for each level
     unsigned int* masks = GenerateMask(lvls, treeScheme);
     unsigned int* shiftSizes = GetShiftSizes(treeScheme, lvls);
