@@ -71,25 +71,37 @@ int* processString(char* arr, int lvls){
     
 
     int* retArr = (int*)malloc(sizeof(int)*lvls);
-    //Explicit declaration
-    for(int i = 0; i < lvls; i++){
-        retArr[i] = 0;
+    if(retArr == NULL){
+        perror("Memory allocation failed");
+        exit(1);
     }
-    int i = 0;
-    int j = 0;
-    while(arr[i] && j < lvls){
-        retArr[j] = atoi(&arr[i]);
-        i=i+2;
-        j++;
+    char* strCopy = strdup(arr); // modifiable copy of the string
+    char* token = strtok(strCopy, " ");
+    int index = 0;
+
+    while (token != NULL) {
+        retArr[index++] = atoi(token);
+        token = strtok(NULL, " ");
     }
+
+    free(strCopy); // Free the copy of string
+   
     return retArr;
+   
 }
 
 // count the number of levels specified
 int NumLvl(char* arr){
-    int i = 0;
-    while(arr[i]){
-        i++;
+    int count = 0;
+    const char* tempStr = arr;
+    while (*tempStr) {
+        if (*tempStr == ' ') {
+            count++;
+        }
+        tempStr++;
     }
-    return i-(i/2);
+    count++; // Add 1 to count for the last number
+
+    return count;
+
 }
